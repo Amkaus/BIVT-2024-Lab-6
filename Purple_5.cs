@@ -134,26 +134,25 @@ namespace Lab_6
                     }
                 }
 
-                Array.Sort(result_of_research, (a, b) =>
-                {
-                    return b.Count - a.Count;
-                });
+                Array.Sort(result_of_research, (a, b) => {return b.Count - a.Count;});
 
-                int n = differ_question;
-                foreach (var a in result_of_research)
-                    if (a.Meaning == "-")
+                int not_empty = differ_question;
+                foreach (var result in result_of_research)
+                {
+                    if (result.Meaning == "-")
                     {
-                        n--;
+                        not_empty -= 1;
                         break;
                     }
-                string[] ans = new string[Math.Min(n, 5)];
-                int step = 0;
-                for (int i = 0; i < ans.Length; i++)
-                {
-                    if (result_of_research[i].Meaning == "-") step = 1;
-                    ans[i] = result_of_research[i + step].Meaning;
                 }
-                return ans;
+                string[] res = new string[Math.Min(5, not_empty)];
+                int tool = 0;
+                for (int i = 0; i < res.Length; i++)
+                {
+                    if (result_of_research[i].Meaning == "-") { tool = 1; };
+                    res[i] = result_of_research[i + tool].Meaning;
+                }
+                return res;
             }
 
             private struct Resulting
