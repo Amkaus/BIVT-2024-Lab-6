@@ -20,7 +20,7 @@ namespace Lab_6
             public string CharacterTrait => _charactertrait;
             public string Concept => _concept;
 
-            public string[] Massive_of_answers // dop
+            private string[] Massive_of_answers // dop
             {
                 get
                 {
@@ -35,13 +35,13 @@ namespace Lab_6
 
             public int CountVotes(Response[] responses, int questionNumber)
             {
-                if (questionNumber < 1 || questionNumber > 3 || responses == null || responses.Length == 0) return default;
+                if (responses == null || questionNumber < 1 || questionNumber > 3 ||  responses.Length == 0) return default;
                 int count_question = 0;
                 int k = questionNumber;
                 k--;
                 foreach (Response response in responses)
                 {
-                    if (response.Massive_of_answers[k] != "-") count_question++;
+                    if (response.Massive_of_answers[k] != "") count_question++;
                 }
                 return count_question;
             }
@@ -62,7 +62,7 @@ namespace Lab_6
             {
                 get
                 {
-                    if (_responses.Length == 0 || _responses == null) return default;
+                    if (_responses == null || _responses.Length == 0 ) return default;
 
                     Response[] copy_of_answers = new Response[_responses.Length];
                     Array.Copy(_responses, copy_of_answers, _responses.Length);
@@ -73,11 +73,11 @@ namespace Lab_6
             public Research(string name)
             {
                 _name = name;
-                _responses = new Response[] { };
+                _responses = new Response[0] { };
             }
             public void Add(string[] answers)
             {
-                if (answers == null) return;
+                if (answers == null || _responses == null) return;
 
                 string[] new_answer = new string[3];
 
@@ -96,15 +96,20 @@ namespace Lab_6
             public string[] GetTopResponses(int question)
             {
                 if (_responses == null) return default;
+
                 int question_num = question;
                 question_num -= 1;
                 int differ_question = 0;
+
                 for (int i = 0; i < _responses.Length; i++)
                 {
                     int notrepeated = 0;
                     for (int j = 0; j < i; j++)
                     {
-                        if (_responses[i].Massive_of_answers[question_num] == _responses[j].Massive_of_answers[question_num])
+                        string[] xz_kakoy_massive_answer_number = new string[] { _responses[i].Animal, _responses[i].CharacterTrait, _responses[i].Concept };
+                        string[] xz_kakoy_massive_answer_number2 = new string[] { _responses[j].Animal, _responses[j].CharacterTrait, _responses[j].Concept };
+
+                        if (xz_kakoy_massive_answer_number[question_num] == xz_kakoy_massive_answer_number2[question_num])
                         {
                             notrepeated++;
                         }
@@ -121,12 +126,14 @@ namespace Lab_6
 
                     for (int j = 0; j < differ_question; j++)
                     {
+                        string[] massive_of_answers = new string[] { response.Animal, response.CharacterTrait, response.Concept };
+
                         if (result_of_research[j].Count == 0)
                         {
-                            result_of_research[j] = new Resulting(response.Massive_of_answers[question_num]);
+                            result_of_research[j] = new Resulting(massive_of_answers[question_num]);
                             break;
                         }
-                        else if (result_of_research[j].Meaning == response.Massive_of_answers[question_num])
+                        else if (result_of_research[j].Meaning == massive_of_answers[question_num])
                         {
                             result_of_research[j].Increasing_of_words();
                             break;
@@ -139,7 +146,7 @@ namespace Lab_6
                 int not_empty = differ_question;
                 foreach (var result in result_of_research)
                 {
-                    if (result.Meaning == "-")
+                    if (result.Meaning == null)
                     {
                         not_empty -= 1;
                         break;
@@ -149,7 +156,7 @@ namespace Lab_6
                 int tool = 0;
                 for (int i = 0; i < res.Length; i++)
                 {
-                    if (result_of_research[i].Meaning == "-") { tool = 1; };
+                    if (result_of_research[i].Meaning == null) { tool = 1; };
                     res[i] = result_of_research[i + tool].Meaning;
                 }
                 return res;

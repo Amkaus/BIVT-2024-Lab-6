@@ -46,7 +46,7 @@ namespace Lab_6
                 get
                 {
                     if (_places_judges == null) return default;
-                    int copy = default;
+                    int copy = 0;
                     for (int i = 0; i < _places_judges.Length; i++)
                     {
                         copy += _places_judges[i];
@@ -77,7 +77,7 @@ namespace Lab_6
                 get
                 {
                     if (_marks == null || _marks.Length == 0) return default;
-                    double sum_copy = default;
+                    double sum_copy = 0;
                     for (int i = 0; i < _marks.Length; i++)
                     {
                         sum_copy += _marks[i];
@@ -95,17 +95,24 @@ namespace Lab_6
 
             public void Evaluate(double result)
             {
-                if (result < 0 || result > 6 || _marks == null) return;
-                _marks[_amount++] = result;
+                if ( _marks == null || result < 0 || result > 6 ) return;
+                _marks[_amount] = result; _amount += 1;
             }
             public static void SetPlaces(Participant[] participants)
             {
+                if (participants == null) return;
                 for (int i = 0; i < 7; i++)
                 {
                     Array.Sort(participants, (a, b) =>
                     {
-                        if (a.Marks[i] - b.Marks[i] < 0) return 1;
-                        else if (a.Marks[i] - b.Marks[i] > 0) return -1;
+                        double A1 = 0, B1 = 0;
+
+                        if (a.Marks == null) A1 = 0; else { A1 = a.Marks[i]; }
+                        if (b.Marks == null) B1 = 0; else { B1 = b.Marks[i]; }
+
+
+                        if (A1 - B1 < 0) return 1;
+                        else if (A1 - B1 > 0) return -1;
                         else return 0;
                     });
                     for (int j = 0; j < participants.Length; j++)
@@ -116,8 +123,7 @@ namespace Lab_6
             }
             private void Link_for_SetPlaces(int i, int j)
             {
-                if (i < 0 || i > 7) return;
-                if (_places_judges == null || _places_judges.Length == 0) return;
+                if (_places_judges == null || _places_judges.Length == 0 || i < 0 || i > 7) return;
                 _places_judges[i] = j;
             }
 

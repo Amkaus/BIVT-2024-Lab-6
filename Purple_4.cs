@@ -64,8 +64,9 @@ namespace Lab_6
                 } else
                 {
                     _sportsmen = new Sportsman[elem.Sportsmen.Length];
+                    Array.Copy(elem.Sportsmen, _sportsmen, elem.Sportsmen.Length);
                 }
-                Array.Copy(elem.Sportsmen, _sportsmen, elem.Sportsmen.Length);
+
             }
             public void Add(Sportsman one_sportsman)
             {
@@ -78,13 +79,16 @@ namespace Lab_6
             }
             public void Add(Sportsman[] SPORTSmenGroup)
             {
-                if (_sportsmen == null || _sportsmen.Length == 0 || SPORTSmenGroup == null) return;
+                if (_sportsmen == null || SPORTSmenGroup == null || _sportsmen.Length == 0 ) return;
+
                 Sportsman[] copy = new Sportsman[_sportsmen.Length + SPORTSmenGroup.Length];
+
                 Array.Copy(_sportsmen, copy, _sportsmen.Length);
                 Array.ConstrainedCopy(SPORTSmenGroup, 0, copy, _sportsmen.Length, SPORTSmenGroup.Length);
+
                 _sportsmen = copy;
             }
-            public void Add_group(Group elem)
+            public void Add(Group elem)
             {
                 if (elem.Sportsmen == null || _sportsmen == null || _sportsmen.Length == 0) return;
                 Add(elem.Sportsmen);
@@ -93,6 +97,7 @@ namespace Lab_6
             public void Sort()
             {
                 if (_sportsmen == null || _sportsmen.Length == 0) return;
+
                 Array.Sort(_sportsmen, (a,b) => {
                     if (a.Time - b.Time > 0) return 1;
                     else if (a.Time - b.Time < 0) return -1;
@@ -101,9 +106,39 @@ namespace Lab_6
             }
             public static Group Merge(Group group1, Group group2) {
                 Group copy = new Group("Финалисты");
-                copy.Add_group(group1);
-                copy.Add_group(group2);
+
+                Sportsman[] grp1 = group1._sportsmen, grp2 = group2._sportsmen;
+
+                if (grp1 == null) grp1 = new Sportsman[0] { }; if (grp2 == null) grp2 = new Sportsman[0] { };
+
+                int g1 = grp1.Length; int g2 = grp2.Length;
+                copy._sportsmen = new Sportsman[g1+g2];
+
+                int l = 0, k = 0, index_massive = 0;
+                while (l < g1 && k < g2)
+                {
+                    if (grp1[l].Time <= grp2[k].Time)
+                    {
+                        copy._sportsmen[index_massive++] = grp1[l++];
+                    }
+                    else
+                    {
+                        copy._sportsmen[index_massive++] = grp2[k++];
+                    }
+                }
+                while (l < g1)
+                {
+                    copy._sportsmen[index_massive++] = grp1[l++];
+                }
+                while (k < g2)
+                {
+                    copy._sportsmen[index_massive++] = grp2[k++];
+                }
+
                 return copy;
+
+
+
             }
             public void Print() { }
         }
