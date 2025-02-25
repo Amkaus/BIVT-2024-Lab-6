@@ -44,7 +44,7 @@ namespace Lab_6
             {
                 get
                 {
-                    if (_sportsmen == null || _sportsmen.Length == 0) return default;
+                    if (_sportsmen == null) return default;
                     Sportsman[] copy = new Sportsman[_sportsmen.Length];
                     Array.Copy(_sportsmen, copy, _sportsmen.Length);
                     return copy;
@@ -70,7 +70,7 @@ namespace Lab_6
             }
             public void Add(Sportsman one_sportsman)
             {
-                if (_sportsmen == null || _sportsmen.Length == 0) return;
+                if (_sportsmen == null) return;
 
                 Sportsman[] copy = new Sportsman[_sportsmen.Length + 1];
                 Array.Copy(_sportsmen, copy, _sportsmen.Length);
@@ -79,7 +79,7 @@ namespace Lab_6
             }
             public void Add(Sportsman[] SPORTSmenGroup)
             {
-                if (_sportsmen == null || SPORTSmenGroup == null || _sportsmen.Length == 0 ) return;
+                if (_sportsmen == null || SPORTSmenGroup == null) return;
 
                 Sportsman[] copy = new Sportsman[_sportsmen.Length + SPORTSmenGroup.Length];
 
@@ -90,13 +90,13 @@ namespace Lab_6
             }
             public void Add(Group elem)
             {
-                if (elem.Sportsmen == null || _sportsmen == null || _sportsmen.Length == 0) return;
+                if (elem.Sportsmen == null || _sportsmen == null) return;
                 Add(elem.Sportsmen);
             }
 
             public void Sort()
             {
-                if (_sportsmen == null || _sportsmen.Length == 0) return;
+                if (_sportsmen == null) return;
 
                 Array.Sort(_sportsmen, (a,b) => {
                     if (a.Time - b.Time > 0) return 1;

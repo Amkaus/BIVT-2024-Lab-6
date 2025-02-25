@@ -35,7 +35,7 @@ namespace Lab_6
 
             public int CountVotes(Response[] responses, int questionNumber)
             {
-                if (responses == null || questionNumber < 1 || questionNumber > 3 ||  responses.Length == 0) return default;
+                if (responses == null || questionNumber < 1 || questionNumber > 3) return default;
                 int count_question = 0;
                 int k = questionNumber;
                 k--;
@@ -62,7 +62,7 @@ namespace Lab_6
             {
                 get
                 {
-                    if (_responses == null || _responses.Length == 0 ) return default;
+                    if (_responses == null) return default;
 
                     Response[] copy_of_answers = new Response[_responses.Length];
                     Array.Copy(_responses, copy_of_answers, _responses.Length);

@@ -23,7 +23,7 @@ namespace Lab_6
             {
                 get
                 {
-                    if (_marks == null || _marks.Length != 7) return default(double[]);
+                    if (_marks == null) return default(double[]);
                     double[] copy = new double[_marks.Length];
                     Array.Copy(_marks, copy, _marks.Length);
                     return copy;
@@ -34,7 +34,7 @@ namespace Lab_6
             {
                 get
                 {
-                    if (_places_judges == null || _places_judges.Length != 7) return default(int[]);
+                    if (_places_judges == null) return default(int[]);
                     int[] copy = new int[_places_judges.Length];
                     Array.Copy(_places_judges, copy, _places_judges.Length);
                     return copy;
@@ -58,7 +58,7 @@ namespace Lab_6
             {
                 get
                 {
-                    if (_places_judges == null || _places_judges.Length == 0) return default(int);
+                    if (_places_judges == null) return default(int);
                     int unnes = 10000000; int ind_top_mesta = -1;
                     for (int i = 0; i < _places_judges.Length; i++)
                     {
@@ -76,7 +76,7 @@ namespace Lab_6
             {
                 get
                 {
-                    if (_marks == null || _marks.Length == 0) return default;
+                    if (_marks == null) return default;
                     double sum_copy = 0;
                     for (int i = 0; i < _marks.Length; i++)
                     {
@@ -89,13 +89,13 @@ namespace Lab_6
             public Participant(string name, string surname)
             {
                 _name = name; _surname = surname; _amount = 0;
-                _places_judges = new int[] { 0, 0, 0, 0, 0, 0, 0 };
-                _marks = new double[] { 0, 0, 0, 0, 0, 0, 0 };
+                _places_judges = new int[7] { 0, 0, 0, 0, 0, 0, 0 };
+                _marks = new double[7] { 0, 0, 0, 0, 0, 0, 0 };
             }
 
             public void Evaluate(double result)
             {
-                if ( _marks == null || result < 0 || result > 6 ) return;
+                if ( _marks == null || _marks.Length <= _amount || result < 0 || result > 6) return;
                 _marks[_amount] = result; _amount += 1;
             }
             public static void SetPlaces(Participant[] participants)
@@ -123,13 +123,13 @@ namespace Lab_6
             }
             private void Link_for_SetPlaces(int i, int j)
             {
-                if (_places_judges == null || _places_judges.Length == 0 || i < 0 || i > 7) return;
+                if (_places_judges == null || i < 0 || i >= 7) return;
                 _places_judges[i] = j;
             }
 
             public static void Sort(Participant[] array)
             {
-                if (array == null || array.Length == 0) return;
+                if (array == null) return;
                 Array.Sort(array, (a, b) =>
                 {
                     if (a.Score == b.Score)
