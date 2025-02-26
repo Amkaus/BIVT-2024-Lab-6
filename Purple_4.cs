@@ -45,9 +45,11 @@ namespace Lab_6
                 get
                 {
                     if (_sportsmen == null) return default;
-                    Sportsman[] copy = new Sportsman[_sportsmen.Length];
-                    Array.Copy(_sportsmen, copy, _sportsmen.Length);
-                    return copy;
+
+                   // Sportsman[] copy = new Sportsman[_sportsmen.Length];
+                   //Array.Copy(_sportsmen, copy, _sportsmen.Length);
+
+                    return _sportsmen;
                 }
             }
             public Group(string naming)
@@ -84,6 +86,7 @@ namespace Lab_6
                 Sportsman[] copy = new Sportsman[_sportsmen.Length + SPORTSmenGroup.Length];
 
                 Array.Copy(_sportsmen, copy, _sportsmen.Length);
+
                 Array.ConstrainedCopy(SPORTSmenGroup, 0, copy, _sportsmen.Length, SPORTSmenGroup.Length);
 
                 _sportsmen = copy;
